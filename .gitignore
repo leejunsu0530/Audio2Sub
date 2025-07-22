@@ -1,0 +1,18 @@
+# 바이트 컴파일된 파일들
+__pycache__/
+*.py[cod]
+
+# 가상환경 폴더
+.venv/
+env/
+audio2sub-env/
+
+# VSCode 설정 폴더
+.vscode/
+
+# 로그 파일
+*.log
+
+# OS 관련 파일
+.DS_Store
+Thumbs.db

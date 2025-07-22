@@ -23,13 +23,14 @@ def format_filename(input_string: str) -> str:
     return input_string
 
 
-def download_audio(url: str, dirname: str, concurrent_fragments: int = min(32, (os.cpu_count() or 1) + 4)) -> None:
+def download_audio(url: str, dirname: str = os.getcwd(), concurrent_fragments: int = min(32, (os.cpu_count() or 1) + 4)) -> None:
     """
     python cli_to_api.py yt-dlp --format "bestaudio/best" --concurrent-fragments 3 --extract-audio --audio-quality 0 --remux-video m4a --output "[%(id)s]%(title)s_audio.%(ext)s" --paths "dirname" "youtube:skip=translated_subs"
     """
     ydl_opts = {
         'concurrent_fragment_downloads': concurrent_fragments,
         'final_ext': 'm4a',
+        'extractor_args': {'youtube': {'skip': ['translated_subs']}},
         'format': 'bestaudio/best',
         'outtmpl': {'default': '[%(id)s]%(title)s_audio.%(ext)s'},
         'paths': {'home': dirname},
@@ -52,7 +53,7 @@ def bring_data(url: str) -> list[dict]:
     """
     ydl_opts = {
         'extract_flat': 'in_playlist',
-        'extractor_args': {'youtube': {'lang': ['ko'], 'skip': ['translated_subs']}},
+        'extractor_args': {'youtube': {'skip': ['translated_subs']}},
         'format': 'bestvideo[height<=720]+bestaudio/best[height<=720]',
         'noprogress': False,
         'quiet': False,
@@ -67,3 +68,13 @@ def bring_data(url: str) -> list[dict]:
         else:
             return [info_dict]
     # 이제 이게 비디오/플리 모두 되는지 확인
+
+
+if __name__ == '__main__':
+    from pprint import pprint
+    # pprint(bring_data("https://www.youtube.com/playlist?list=PLLoamEZ5bJuEYZjbBSZ1iB6-lZXcml4jc"))
+
+    data = bring_data("https://www.youtube.com/watch?v=ATvCvylg4as")
+    with open("test.json", "w", encoding="utf-8") as f:
+        import json
+        json.dump(data, f, ensure_ascii=False, indent=4)
