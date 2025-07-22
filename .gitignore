@@ -6,9 +6,11 @@ __pycache__/
 .venv/
 env/
 audio2sub-env/
+.conda/
 
 # VSCode 설정 폴더
 .vscode/
+.mypy_cache
 
 # 로그 파일
 *.log
