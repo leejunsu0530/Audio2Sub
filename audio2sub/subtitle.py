@@ -1,5 +1,6 @@
-import srt
+import srt  # type: ignore
 import datetime
+
 
 def segments_to_srt(segments, output_path):
     subs = []
@@ -7,7 +8,8 @@ def segments_to_srt(segments, output_path):
         start = datetime.timedelta(seconds=seg["start"])
         end = datetime.timedelta(seconds=seg["end"])
         content = seg["text"].strip()
-        subs.append(srt.Subtitle(index=i+1, start=start, end=end, content=content))
+        subs.append(srt.Subtitle(
+            index=i+1, start=start, end=end, content=content))
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(srt.compose(subs))
 

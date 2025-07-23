@@ -1,11 +1,14 @@
-import whisper # type: ignore
+import whisper  # type: ignore
+
 
 def load_whisper_model(name="base"):
     return whisper.load_model(name)
 
+
 def transcribe(model, audio_path, lang="ja"):
     result = model.transcribe(audio_path, language=lang)
     return result['segments']
+
 
 if __name__ == "__main__":
     # 간단 테스트 코드: 음성 파일을 넣고 자막 세그먼트 출력
